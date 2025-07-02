@@ -18,7 +18,6 @@ public:
 		return guessNumber[0] == guessNumber[1]
 			|| guessNumber[1] == guessNumber[2]
 			|| guessNumber[2] == guessNumber[0];
-
 	}
 
 	void assertIllegalArgument(const std::string& guessNumber)
@@ -39,6 +38,12 @@ public:
 		assertIllegalArgument(guessNumber);
 		if (guessNumber == question) {
 			return { true, 3, 0 };
+		}
+		// 2 스트라이크, 0 볼
+		if (guessNumber[0] == question[0]
+			&& guessNumber[1] == question[1]
+			&& guessNumber[2] != question[2]) {
+			return { false, 2, 0 };
 		}
 		return { false, 0, 0 };
 	}
