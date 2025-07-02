@@ -35,17 +35,26 @@ public:
 	}
 
 	GuessResult guess(const string& guessNumber) {
+		int strikes = 0;
+
 		assertIllegalArgument(guessNumber);
 		if (guessNumber == question) {
 			return { true, 3, 0 };
+		}	
+		
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				if (guessNumber[i] == question[j]) {
+					if (i == j) {
+						strikes++;
+					}
+					else {
+					}
+				}
+			}
 		}
-		// 2 스트라이크, 0 볼
-		if (guessNumber[0] == question[0]
-			&& guessNumber[1] == question[1]
-			&& guessNumber[2] != question[2]) {
-			return { false, 2, 0 };
-		}
-		return { false, 0, 0 };
+
+		return { false, strikes, 0 };
 	}
 
 private:
