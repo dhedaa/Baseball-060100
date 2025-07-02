@@ -36,12 +36,13 @@ public:
 
 	GuessResult guess(const string& guessNumber) {
 		int strikes = 0;
+		int balls = 0;
 
 		assertIllegalArgument(guessNumber);
 		if (guessNumber == question) {
 			return { true, 3, 0 };
-		}	
-		
+		}
+
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 3; ++j) {
 				if (guessNumber[i] == question[j]) {
@@ -49,14 +50,14 @@ public:
 						strikes++;
 					}
 					else {
+						balls++;
 					}
 				}
 			}
 		}
 
-		return { false, strikes, 0 };
+		return { false, strikes, balls };
 	}
-
 private:
 	string question;
 };
