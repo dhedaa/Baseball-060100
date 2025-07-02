@@ -13,11 +13,12 @@ public:
 
 	explicit Baseball(const string& question) : question(question) {}
 
-	bool isDuplicatedNumber(const std::string& guessNumber)
-	{
-		return guessNumber[0] == guessNumber[1]
-			|| guessNumber[1] == guessNumber[2]
-			|| guessNumber[2] == guessNumber[0];
+	GuessResult guess(const string& guessNumber) {
+		assertIllegalArgument(guessNumber);
+		if (guessNumber == question) {
+			return { true, 3, 0 };
+		}
+		return { false, getStrikeCount(guessNumber), getBallCount(guessNumber) };
 	}
 
 	void assertIllegalArgument(const std::string& guessNumber)
@@ -34,30 +35,40 @@ public:
 		}
 	}
 
-	GuessResult guess(const string& guessNumber) {
+	bool isDuplicatedNumber(const std::string& guessNumber)
+	{
+		return guessNumber[0] == guessNumber[1]
+			|| guessNumber[1] == guessNumber[2]
+			|| guessNumber[2] == guessNumber[0];
+	}	
+
+	int getStrikeCount(const string& guessNumber) {
 		int strikes = 0;
-		int balls = 0;
-
-		assertIllegalArgument(guessNumber);
-		if (guessNumber == question) {
-			return { true, 3, 0 };
-		}
-
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 3; ++j) {
 				if (guessNumber[i] == question[j]) {
 					if (i == j) {
 						strikes++;
 					}
-					else {
+				}
+			}
+		}
+		return strikes;
+	}
+
+	int getBallCount(const string& guessNumber) {
+		int balls = 0;
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				if (guessNumber[i] == question[j]) {
+					if (i != j) {
 						balls++;
 					}
 				}
 			}
 		}
-
-		return { false, strikes, balls };
-	}
+		return balls;
+	}	
 private:
 	string question;
 };
