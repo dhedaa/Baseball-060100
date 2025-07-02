@@ -13,10 +13,14 @@ public:
 
 	explicit Baseball(const string& question) : question(question) {}
 
-	GuessResult guess(const string& guessNumber) {
-		assertIllegalArgument(guessNumber);
-		return { true, 3, 0 };
+	bool isDuplicatedNumber(const std::string& guessNumber)
+	{
+		return guessNumber[0] == guessNumber[1]
+			|| guessNumber[1] == guessNumber[2]
+			|| guessNumber[2] == guessNumber[0];
+
 	}
+
 	void assertIllegalArgument(const std::string& guessNumber)
 	{
 		if (guessNumber.length() != 3) {
@@ -30,12 +34,15 @@ public:
 			throw invalid_argument("Must not have the same number");
 		}
 	}
-	bool isDuplicatedNumber(const std::string& guessNumber)
-	{
-		return guessNumber[0] == guessNumber[1]
-			|| guessNumber[1] == guessNumber[2]
-			|| guessNumber[2] == guessNumber[0];
+
+	GuessResult guess(const string& guessNumber) {
+		assertIllegalArgument(guessNumber);
+		if (guessNumber == question) {
+			return { true, 3, 0 };
+		}
+		return { false, 0, 0 };
 	}
+
 private:
 	string question;
 };
